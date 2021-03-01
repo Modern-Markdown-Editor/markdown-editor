@@ -23,6 +23,18 @@
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "yarn format",
+      "yarn lint",
+      "git add"
+    ]
+  },
   "peerDependencies": {
     "react": "^16.0.0"
   },
@@ -55,17 +67,5 @@
   },
   "files": [
     "dist"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,ts,tsx}": [
-      "yarn format",
-      "yarn lint",
-      "git add"
-    ]
-  }
+  ]
 }
