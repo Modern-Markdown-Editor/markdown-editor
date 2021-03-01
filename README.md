@@ -1,5 +1,8 @@
 # markdown-editor
 
+Node v14.16.0
+Yarn v1.22.10
+
 > Made with create-react-library
 
 [![NPM](https://img.shields.io/npm/v/markdown-editor.svg)](https://www.npmjs.com/package/markdown-editor) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
