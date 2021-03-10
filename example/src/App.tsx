@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { ExampleComponent } from 'markdown-editor';
+import { Markdown } from 'markdown-editor';
 import 'markdown-editor/dist/index.css';
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />;
+  return <Markdown placeholder={'Type Something //'} triggerKey={'*'} />;
   // return <div>Hello</div>;
 };
 
