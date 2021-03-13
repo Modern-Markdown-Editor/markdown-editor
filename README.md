@@ -16,16 +16,16 @@ npm install --save markdown-editor
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import * as React from 'react';
 
-import MyComponent from 'markdown-editor'
-import 'markdown-editor/dist/index.css'
+import { Markdown } from 'markdown-editor';
+import 'markdown-editor/dist/index.css';
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+const App = () => {
+  return <Markdown placeholder={'Type `*` for commands'} triggerKey={'*'} />;
+};
+
+export default App;
 ```
 
 ## License
