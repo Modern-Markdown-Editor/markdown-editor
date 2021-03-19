@@ -1,0 +1,20 @@
+ul.dropdown::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+/* Track */
+ul.dropdown::-webkit-scrollbar-track {
+  background: #edece9;
+}
+
+/* Handle */
+ul.dropdown::-webkit-scrollbar-thumb {
+  background: #d3d1cb;
+}
+
+/* Handle on hover */
+ul.dropdown::-webkit-scrollbar-thumb:hover {
+  background: #b1afac;
+}

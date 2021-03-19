@@ -4,7 +4,6 @@ module.exports = {
   theme: {
     fontFamily: {
       primary: [
-        'Nunito',
         '-apple-system',
         'BlinkMacSystemFont',
         'Segoe UI',
@@ -23,7 +22,24 @@ module.exports = {
       current: 'currentColor',
       black: '#000',
       white: '#fff',
-      gray: {
+      darkGray: {
+        100: '#42526E',
+        200: '#344563',
+        300: '#253858',
+        400: '#172B4D',
+        500: '#091E42',
+      },
+      midGray: {
+        100: '#B3BAC5',
+        200: '#A5ADBA',
+        300: '#97A0AF',
+        400: '#8993A4',
+        500: '#7A869A',
+        600: '#6B778C',
+        700: '#5E6C84',
+        800: '#505F79',
+      },
+      lightGray: {
         100: '#FAFBFC',
         200: '#F4F5F7',
         300: '#EBECF0',
@@ -94,9 +110,23 @@ module.exports = {
         700: '#403294',
       },
     },
+    minWidth: {
+      0: '0',
+      '1/4': '25%',
+      '1/2': '50%',
+      '3/4': '75%',
+      full: '100%',
+      md: '200px',
+    },
+    boxShadow: {
+      md: 'rgb(15 15 15 / 5%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 3px 6px, rgb(15 15 15 / 20%) 0px 9px 24px',
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ['last'],
+      margin: ['last'],
+    },
   },
   plugins: [],
 };

@@ -14,7 +14,6 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
     'plugin:prettier/recommended',
   ],
   rules: {
@@ -24,5 +23,8 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    // 'eslint/no-unused-vars': 'off',
+    // '@typescript-eslint/no-unused-vars': ['off'],
+    'prettier/prettier': 0,
   },
 };
