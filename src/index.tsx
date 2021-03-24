@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './styles.module.css';
 import './styles/base.css';
-import { Dropdown } from './components/Dropdown';
+import { Dropdown, DropdownItem } from './components/Dropdown';
 export interface MarkdownProps {
   placeholder?: string;
   triggerKey?: string;
@@ -35,6 +35,9 @@ const items = [
 ];
 
 export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: MarkdownProps) => {
+  const [activeItemIndex, setActiveItemIndex] = React.useState(0);
+  const [selectedItem, setSelectedItem] = React.useState<DropdownItem>();
+
   React.useEffect(() => {
     let element = document.getElementById('content');
   });
@@ -48,10 +51,53 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
     }
   };
 
+  const handleOnMouseEnter = (index: number) => {
+    setActiveItemIndex(index);
+  };
+
+  const handleItemClick = (item: DropdownItem) => {
+    setSelectedItem(item);
+    setDropdownIsOpen(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    console.log(event.key);
+    if (event.key === 'ArrowUp') {
+      if (activeItemIndex === 0) {
+        return;
+      }
+      setActiveItemIndex(activeItemIndex - 1);
+    } else if (event.key === 'ArrowDown') {
+      if (activeItemIndex === items.length - 1) {
+        return;
+      }
+      setActiveItemIndex(activeItemIndex + 1);
+    } else if (event.key === 'Enter') {
+      setSelectedItem(items[activeItemIndex]);
+      setDropdownIsOpen(false);
+    } else if (event.key === 'Escape') {
+      setDropdownIsOpen(false);
+    }
+  };
+
+  console.log('selectedItem', selectedItem);
+
   return (
     <div className={styles.markdown}>
-      <div contentEditable={true} className={`${styles.test}`} placeholder={placeholder} onInput={handleChange} />
-      <Dropdown isOpen={dropdownisOpen} items={items} />
+      <div
+        contentEditable={true}
+        className={`${styles.test}`}
+        placeholder={placeholder}
+        onInput={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+      <Dropdown
+        isOpen={dropdownisOpen}
+        items={items}
+        activeItemIndex={activeItemIndex}
+        handleItemClick={handleItemClick}
+        handleOnMouseEnter={handleOnMouseEnter}
+      />
       <input id="content" type="text"></input>
     </div>
   );
