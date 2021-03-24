@@ -15,7 +15,7 @@ export const Dropdown = ({ items, isOpen }: DropdownProps) => {
   }
   return (
     <ul
-      className={`${styles.dropdown} rounded relative shadow-md inline-block m-2 max-w-xs min-w-md max-h-96 overflow-y-auto cursor-pointer`}
+      className={`${styles.dropdown} rounded absolute shadow-md inline-block m-2 max-w-xs min-w-md max-h-96 overflow-y-auto cursor-pointer top-14 left-16`}
     >
       {items.map((item, index) => (
         <li className="px-4 py-2 hover:bg-lightGray-300 last:mb-0" key={`${item.name}${index}`}>

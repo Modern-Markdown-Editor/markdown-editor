@@ -35,9 +35,13 @@ const items = [
 ];
 
 export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: MarkdownProps) => {
+  React.useEffect(() => {
+    let element = document.getElementById('content');
+  });
   const [dropdownisOpen, setDropdownIsOpen] = React.useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLDivElement>) => {
-    if (event.target.innerText === triggerKey) {
+    const text = event.target.innerText;
+    if (text[text.length - 1] === triggerKey) {
       setDropdownIsOpen(true);
     } else if (dropdownisOpen) {
       setDropdownIsOpen(false);
@@ -45,9 +49,10 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   };
 
   return (
-    <React.Fragment>
+    <div className={styles.markdown}>
       <div contentEditable={true} className={`${styles.test}`} placeholder={placeholder} onInput={handleChange} />
       <Dropdown isOpen={dropdownisOpen} items={items} />
-    </React.Fragment>
+      <input id="content" type="text"></input>
+    </div>
   );
 };
