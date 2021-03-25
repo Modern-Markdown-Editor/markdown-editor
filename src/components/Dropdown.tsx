@@ -21,7 +21,8 @@ export const Dropdown = ({ items, isOpen, activeItemIndex, handleOnMouseEnter, h
 
   return (
     <ul
-      className={`${styles.dropdown} rounded absolute shadow-md inline-block m-2 max-w-xs min-w-md max-h-96 overflow-y-auto cursor-pointer top-14 left-16`}
+      id="dropdown"
+      className={`${styles.dropdown} rounded absolute shadow-md inline-block m-2 max-w-xs min-w-md max-h-96 overflow-y-auto cursor-pointer`}
     >
       {items.map((item, index) => (
         <li

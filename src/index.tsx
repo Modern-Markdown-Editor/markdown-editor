@@ -37,14 +37,37 @@ const items = [
 export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: MarkdownProps) => {
   const [activeItemIndex, setActiveItemIndex] = React.useState(0);
   const [selectedItem, setSelectedItem] = React.useState<DropdownItem>();
-
-  React.useEffect(() => {
-    let element = document.getElementById('content');
-  });
   const [dropdownisOpen, setDropdownIsOpen] = React.useState(false);
+  const [rangeValues, setRangeValues] = React.useState({ top: 0, left: 0 });
+  React.useEffect(() => {
+    if (dropdownisOpen) {
+      let top = 0;
+      let left = 0;
+      let dropdown = document.getElementById('dropdown');
+      if (dropdown) {
+        top = rangeValues.top;
+        left = rangeValues.left;
+        if (rangeValues.left + dropdown.offsetWidth > window.innerWidth) {
+          left = left - (rangeValues.left + dropdown.offsetWidth - window.innerWidth) - 50;
+        }
+        if (rangeValues.top + dropdown.offsetHeight > window.innerHeight) {
+          top = top - (rangeValues.left + dropdown.offsetHeight - window.innerHeight) - 50;
+        }
+      }
+      dropdown?.setAttribute('style', `top:${top}px;left:${left}px`);
+    }
+  }, [dropdownisOpen]);
+
   const handleChange = (event: React.ChangeEvent<HTMLDivElement>) => {
     const text = event.target.innerText;
     if (text[text.length - 1] === triggerKey) {
+      let range = document.createRange();
+      let element = document.getElementById('content') as Node;
+      let offset = window.getSelection()?.anchorOffset as number;
+      range.setStart(element.firstChild as Node, offset);
+      range.setEnd(element.firstChild as Node, offset);
+      let rangeValue = range.getBoundingClientRect();
+      setRangeValues({ top: rangeValue.top, left: rangeValue.left });
       setDropdownIsOpen(true);
     } else if (dropdownisOpen) {
       setDropdownIsOpen(false);
@@ -61,7 +84,6 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    console.log(event.key);
     if (event.key === 'ArrowUp') {
       if (activeItemIndex === 0) {
         return;
@@ -80,11 +102,10 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
     }
   };
 
-  console.log('selectedItem', selectedItem);
-
   return (
     <div className={styles.markdown}>
       <div
+        id="content"
         contentEditable={true}
         className={`${styles.test}`}
         placeholder={placeholder}
@@ -98,7 +119,6 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
         handleItemClick={handleItemClick}
         handleOnMouseEnter={handleOnMouseEnter}
       />
-      <input id="content" type="text"></input>
     </div>
   );
 };
