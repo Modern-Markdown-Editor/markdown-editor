@@ -58,21 +58,9 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
     }
   }, [dropdownisOpen]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLDivElement>) => {
-    const text = event.target.innerText;
-    if (text[text.length - 1] === triggerKey) {
-      let range = document.createRange();
-      let element = document.getElementById('content') as Node;
-      let offset = window.getSelection()?.anchorOffset as number;
-      range.setStart(element.firstChild as Node, offset);
-      range.setEnd(element.firstChild as Node, offset);
-      let rangeValue = range.getBoundingClientRect();
-      setRangeValues({ top: rangeValue.top, left: rangeValue.left });
-      setDropdownIsOpen(true);
-    } else if (dropdownisOpen) {
-      setDropdownIsOpen(false);
-    }
-  };
+  React.useEffect(() => {
+    alert(selectedItem?.name);
+  }, [selectedItem]);
 
   const handleOnMouseEnter = (index: number) => {
     setActiveItemIndex(index);
@@ -84,21 +72,51 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'ArrowUp') {
-      if (activeItemIndex === 0) {
-        return;
+    switch (event.key) {
+      case triggerKey: {
+        let range = document.createRange();
+        let offset = window.getSelection()?.anchorOffset as number;
+        if (!document.getElementById('content')?.firstChild) {
+          let element = document.getElementById('content') as HTMLElement;
+          element.innerHTML = ' ';
+          range.setStart(element.firstChild as Node, offset);
+          range.setEnd(element.firstChild as Node, offset);
+        } else {
+          let element = document.getElementById('content') as Node;
+          range.setStart(element.firstChild as Node, offset);
+          range.setEnd(element.firstChild as Node, offset);
+        }
+
+        let rangeValue = range.getBoundingClientRect();
+        setRangeValues({ top: rangeValue.top, left: rangeValue.left });
+        setDropdownIsOpen(true);
+        break;
       }
-      setActiveItemIndex(activeItemIndex - 1);
-    } else if (event.key === 'ArrowDown') {
-      if (activeItemIndex === items.length - 1) {
-        return;
+      case 'ArrowUp': {
+        if (activeItemIndex === 0) {
+          return;
+        }
+        setActiveItemIndex(activeItemIndex - 1);
+        break;
       }
-      setActiveItemIndex(activeItemIndex + 1);
-    } else if (event.key === 'Enter') {
-      setSelectedItem(items[activeItemIndex]);
-      setDropdownIsOpen(false);
-    } else if (event.key === 'Escape') {
-      setDropdownIsOpen(false);
+      case 'ArrowDown': {
+        if (activeItemIndex === items.length - 1) {
+          return;
+        }
+        setActiveItemIndex(activeItemIndex + 1);
+        break;
+      }
+      case 'Enter': {
+        setSelectedItem(items[activeItemIndex]);
+        setDropdownIsOpen(false);
+        break;
+      }
+      default: {
+        if (dropdownisOpen) {
+          setDropdownIsOpen(false);
+        }
+        break;
+      }
     }
   };
 
@@ -109,7 +127,7 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
         contentEditable={true}
         className={`${styles.test}`}
         placeholder={placeholder}
-        onInput={handleChange}
+        // onInput={handleChange}
         onKeyDown={handleKeyDown}
       />
       <Dropdown
