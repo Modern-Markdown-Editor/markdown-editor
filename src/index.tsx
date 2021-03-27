@@ -58,10 +58,6 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
     }
   }, [dropdownisOpen]);
 
-  React.useEffect(() => {
-    alert(selectedItem?.name);
-  }, [selectedItem]);
-
   const handleOnMouseEnter = (index: number) => {
     setActiveItemIndex(index);
   };
@@ -72,58 +68,64 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    switch (event.key) {
-      case triggerKey: {
-        let range = document.createRange();
-        let offset = window.getSelection()?.anchorOffset as number;
-        if (!document.getElementById('content')?.firstChild) {
-          let element = document.getElementById('content') as HTMLElement;
-          element.innerHTML = ' ';
-          range.setStart(element.firstChild as Node, offset);
-          range.setEnd(element.firstChild as Node, offset);
-        } else {
-          let element = document.getElementById('content') as Node;
-          range.setStart(element.firstChild as Node, offset);
-          range.setEnd(element.firstChild as Node, offset);
-        }
+    if (dropdownisOpen) {
+      event.preventDefault();
+    }
+    if (event.key == triggerKey) {
+      event.preventDefault();
+      let range = document.createRange();
+      let offset = window.getSelection()?.anchorOffset as number;
+      let element = document.activeElement as Node;
+      range.setStart(element.firstChild as Node, offset);
+      range.setEnd(element.firstChild as Node, offset);
 
-        let rangeValue = range.getBoundingClientRect();
-        setRangeValues({ top: rangeValue.top, left: rangeValue.left });
-        setDropdownIsOpen(true);
-        break;
-      }
-      case 'ArrowUp': {
-        if (activeItemIndex === 0) {
-          return;
+      let rangeValue = range.getBoundingClientRect();
+      setRangeValues({ top: rangeValue.top, left: rangeValue.left });
+      setDropdownIsOpen(true);
+      switch (event.key) {
+        case 'ArrowUp': {
+          if (activeItemIndex === 0) {
+            return;
+          }
+          setActiveItemIndex(activeItemIndex - 1);
+          break;
         }
-        setActiveItemIndex(activeItemIndex - 1);
-        break;
-      }
-      case 'ArrowDown': {
-        if (activeItemIndex === items.length - 1) {
-          return;
+        case 'ArrowDown': {
+          if (activeItemIndex === items.length - 1) {
+            return;
+          }
+          setActiveItemIndex(activeItemIndex + 1);
+          break;
         }
-        setActiveItemIndex(activeItemIndex + 1);
-        break;
-      }
-      case 'Enter': {
-        setSelectedItem(items[activeItemIndex]);
-        setDropdownIsOpen(false);
-        break;
-      }
-      default: {
-        if (dropdownisOpen) {
+        case 'Enter': {
+          setSelectedItem(items[activeItemIndex]);
           setDropdownIsOpen(false);
+          break;
         }
-        break;
+        default: {
+          if (dropdownisOpen) {
+            setDropdownIsOpen(false);
+          }
+          break;
+        }
+      }
+    } else {
+      if (event.key == 'Enter') {
+        event.preventDefault();
+        let element = document.getElementById('content');
+        let newElement = document.createElement('div') as HTMLElement;
+        newElement.setAttribute('contenteditable', 'true');
+        newElement.setAttribute('placeholder', placeholder);
+        newElement.setAttribute('class', `${styles.test}`);
+        element?.appendChild(newElement);
+        newElement.focus();
       }
     }
   };
 
   return (
-    <div className={styles.markdown}>
+    <div id="content" className={styles.markdown}>
       <div
-        id="content"
         contentEditable={true}
         className={`${styles.test}`}
         placeholder={placeholder}
