@@ -68,7 +68,12 @@ export const EditableBlock = ({
       case triggerKey: {
         let range = document.createRange();
         let offset = window.getSelection()?.anchorOffset as number;
-        let element = document.activeElement as Node;
+        let element;
+        if (!document.activeElement?.firstChild) {
+          element = document.activeElement as HTMLElement;
+          element.innerHTML = ' ';
+        }
+        element = document.activeElement as Node;
         range.setStart(element.firstChild as Node, offset);
         range.setEnd(element.firstChild as Node, offset);
 
@@ -104,16 +109,17 @@ export const EditableBlock = ({
           setBlocks([...tempBlocks]);
           setBlockFocus(tempBlock.uuid);
         } else {
-          const tempBlocks = [...blocks];
-          const tempBlock = tempBlocks[tempBlocks.findIndex(({ uuid }) => uuid === block.uuid)];
-          tempBlock.tag = items[activeItemIndex].tag;
-          tempBlocks.splice(
-            tempBlocks.findIndex(({ uuid }) => uuid === block.uuid),
-            1,
-            tempBlock,
-          );
-          setBlocks([...tempBlocks]);
           setDropdownIsOpen(false);
+          alert('You selected ' + items[activeItemIndex].name);
+          // const tempBlocks = [...blocks];
+          // const tempBlock = tempBlocks[tempBlocks.findIndex(({ uuid }) => uuid === block.uuid)];
+          // tempBlock.tag = items[activeItemIndex].tag;
+          // tempBlocks.splice(
+          //   tempBlocks.findIndex(({ uuid }) => uuid === block.uuid),
+          //   1,
+          //   tempBlock,
+          // );
+          // setBlocks([...tempBlocks]);
         }
 
         break;
@@ -136,19 +142,17 @@ export const EditableBlock = ({
     contentEditable: true,
     id: block.uuid,
     onInput: (event: React.ChangeEvent<HTMLElement>) => {
-      console.log('event', event.target.innerText);
-
-      const tempBlocks = [...blocks];
-      const tempBlock = tempBlocks[tempBlocks.findIndex(({ uuid }) => uuid === block.uuid)];
+      // console.log('event', event.target.innerText);
+      // const tempBlocks = [...blocks];
+      // const tempBlock = tempBlocks[tempBlocks.findIndex(({ uuid }) => uuid === block.uuid)];
       // Change the content as we type.
-      tempBlock.content = event.target.innerText;
-      tempBlocks.splice(
-        tempBlocks.findIndex(({ uuid }) => uuid === block.uuid),
-        1,
-        tempBlock,
-      );
-      setBlocks([...tempBlocks]);
-
+      // tempBlock.content = event.target.innerText;
+      // tempBlocks.splice(
+      //   tempBlocks.findIndex(({ uuid }) => uuid === block.uuid),
+      //   1,
+      //   tempBlock,
+      // );
+      // setBlocks([...tempBlocks]);
       // Need to move the cursor to the end of the line
     },
     dangerouslySetInnerHTML: {

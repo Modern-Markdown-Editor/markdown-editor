@@ -46,6 +46,24 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   const [blocks, setBlocks] = React.useState([initalBlock]);
   const [blockFocus, setBlockFocus] = React.useState(initalBlock.uuid);
 
+  const node = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  const handleClickOutside = (e: any) => {
+    if (node?.current?.contains(e?.target)) {
+      return;
+    }
+
+    setDropdownIsOpen(false);
+  };
+
   React.useEffect(() => {
     console.log('blockFocus', blockFocus);
     const element = document.getElementById(blockFocus);
@@ -78,6 +96,7 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
   const handleItemClick = (item: DropdownItem) => {
     setSelectedItem(item);
     setDropdownIsOpen(false);
+    alert('You selected ' + items[activeItemIndex].name);
   };
 
   return (
@@ -103,13 +122,16 @@ export const Markdown = ({ placeholder = 'Type Something', triggerKey = '/' }: M
         );
       })}
 
-      <Dropdown
-        isOpen={dropdownisOpen}
-        items={items}
-        activeItemIndex={activeItemIndex}
-        handleItemClick={handleItemClick}
-        handleOnMouseEnter={handleOnMouseEnter}
-      />
+      {dropdownisOpen && (
+        <div ref={node}>
+          <Dropdown
+            items={items}
+            activeItemIndex={activeItemIndex}
+            handleItemClick={handleItemClick}
+            handleOnMouseEnter={handleOnMouseEnter}
+          />
+        </div>
+      )}
     </div>
   );
 };

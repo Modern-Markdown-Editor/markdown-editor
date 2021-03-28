@@ -8,17 +8,12 @@ export interface DropdownItem {
 }
 interface DropdownProps {
   items: DropdownItem[];
-  isOpen: boolean;
   activeItemIndex: number;
   handleOnMouseEnter: (index: number) => void;
   handleItemClick: (item: DropdownItem) => void;
 }
 
-export const Dropdown = ({ items, isOpen, activeItemIndex, handleOnMouseEnter, handleItemClick }: DropdownProps) => {
-  if (!isOpen) {
-    return null;
-  }
-
+export const Dropdown = ({ items, activeItemIndex, handleOnMouseEnter, handleItemClick }: DropdownProps) => {
   return (
     <ul
       id="dropdown"
