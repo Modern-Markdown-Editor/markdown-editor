@@ -30,6 +30,46 @@ const items = [
     description: 'Small section heading',
     tag: 'h3',
   },
+  {
+    name: 'Heading 3',
+    description: 'Small section heading',
+    tag: 'h3',
+  },
+  {
+    name: 'Link',
+    description: 'Convert to Link',
+    tag: 'h3',
+  },
+  {
+    name: 'Image',
+    description: 'Add Image',
+    tag: 'h3',
+  },
+  {
+    name: 'Blockquote',
+    description: 'Add Blockquote',
+    tag: 'h3',
+  },
+  {
+    name: 'List',
+    description: 'Add List',
+    tag: 'h3',
+  },
+  {
+    name: 'Horizontal Rule',
+    description: 'Add Horizontal Rule',
+    tag: 'h3',
+  },
+  {
+    name: 'Inline Code',
+    description: 'Add Inline Code',
+    tag: 'h3',
+  },
+  {
+    name: 'Code Block',
+    description: 'Add Code Block',
+    tag: 'h3',
+  },
 ];
 
 const initalBlock = {
